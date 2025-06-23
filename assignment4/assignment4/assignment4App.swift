@@ -18,7 +18,7 @@ struct assignment4App: App {
     
     var body: some Scene {
         WindowGroup {
-            RegisterView()
+            ContentView()
         }
     }
 }
@@ -26,6 +26,7 @@ struct assignment4App: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        try? Auth.auth().signOut()
         return true
     }
 }

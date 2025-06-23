@@ -7,6 +7,8 @@
 
 import Foundation
 
+//Model for authentication data
+
 final class AuthenticationModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
