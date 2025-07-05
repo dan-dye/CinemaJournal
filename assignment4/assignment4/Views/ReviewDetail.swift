@@ -14,6 +14,16 @@ struct ReviewDetail: View {
         ScrollView {
             VStack(alignment : .center, spacing: 10) {
                 Spacer()
+                HStack {
+                    NavigationLink("Edit") {
+                        EditView(review: review, movie: movie)
+                    }
+                    NavigationLink("Delete") {
+                        Text("Delete")
+                    }
+                }
+                
+                
                 Section(header: Text(movie.title)
                     .font(.system(.headline))
                     .multilineTextAlignment(.center)) {

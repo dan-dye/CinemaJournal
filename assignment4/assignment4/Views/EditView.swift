@@ -1,5 +1,5 @@
 //
-//  CreateReviewView.swift
+//  EditView.swift
 //  assignment4
 //
 //  Created by Daniel Dye on 7/5/25.
@@ -8,16 +8,14 @@
 import SwiftUI
 import FirebaseAuth
 
-struct CreateReviewView: View {
+struct EditView: View {
+    @State var review: ReviewModel
     @State var movie: MovieModel
-    
     let user = Auth.auth().currentUser
     @State private var reviewText: String = ""
     @State private var rating: Double = 5
     @State private var reviewVM = ReviewViewModel()
-    @State private var review: ReviewModel = ReviewModel()
     @State private var goToDestination: Bool = false
-    
     var body: some View {
         VStack {
             Button {
@@ -27,10 +25,10 @@ struct CreateReviewView: View {
                     review.movie = movie.id
                     review.user = user!.uid
                     review.movieTitle = movie.title
-                    await reviewVM.saveReview(review: review)
+                    await reviewVM.editReview(review: review)
                     goToDestination = true
                 }
-
+                
             } label: {
                 Text("Submit Review")
             }
@@ -40,6 +38,8 @@ struct CreateReviewView: View {
             }
             .padding()
             TextEditor(text: $reviewText)
+
+            
             
             
         }
@@ -47,6 +47,12 @@ struct CreateReviewView: View {
         .navigationDestination(isPresented: $goToDestination) {
             MyReviewsView()
         }
+        .onAppear() {
+            reviewText = review.content
+            rating = Double(review.rating)
+            
+        }
     }
 }
+
 
