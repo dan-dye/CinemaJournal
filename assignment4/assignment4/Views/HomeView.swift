@@ -23,8 +23,8 @@ struct HomeView: View {
                     NavigationLink("My Reviews") {
                         MyReviewsView()
                     }
-                    NavigationLink("New Review") {
-                        Text("New Review")
+                    NavigationLink("Add a Review") {
+                        MovieSearchView()
                     }
                     Spacer()
                     Button("Logout") {

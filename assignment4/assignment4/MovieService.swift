@@ -24,8 +24,16 @@ class MovieService {
         let (data, _) = try await URLSession
             .shared
             .data(from: url)
-        let movieResponse = try JSONDecoder().decode(MovieResponseModel.self, from: data)
-        return movieResponse.results
+        do {
+            let movieResponse = try JSONDecoder().decode(MovieResponseModel.self, from: data)
+            print(movieResponse.results)
+            return movieResponse.results
+        } catch {
+            print("Decoding error: \(error)")
+                print(String(data: data, encoding: .utf8) ?? "No response body")
+                return []
+        }
+
     }
     
     func findMovie(query: Int) async throws -> MovieModel {
