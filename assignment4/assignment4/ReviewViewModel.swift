@@ -68,4 +68,16 @@ class ReviewViewModel: ObservableObject {
         }
     }
     
+    func deleteReview(review: ReviewModel) async {
+        do {
+            if let id = review.id {
+                let docRef = db.collection("reviews").document(id)
+                try await docRef.delete()
+                print("Document successfully deleted!")
+            }
+        } catch {
+            print("Error deleting document: \(error)")
+        }
+    }
+    
 }

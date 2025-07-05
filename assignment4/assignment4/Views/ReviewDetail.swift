@@ -10,6 +10,8 @@ import SwiftUI
 struct ReviewDetail: View {
     var review : ReviewModel
     @State var movie = MovieModel()
+    @State private var showDeleteAlert = false
+    @State private var reviewVM = ReviewViewModel()
     var body: some View {
         ScrollView {
             VStack(alignment : .center, spacing: 10) {
@@ -18,8 +20,8 @@ struct ReviewDetail: View {
                     NavigationLink("Edit") {
                         EditView(review: review, movie: movie)
                     }
-                    NavigationLink("Delete") {
-                        Text("Delete")
+                    Button("Delete") {
+                        showDeleteAlert = true
                     }
                 }
                 
@@ -59,6 +61,16 @@ struct ReviewDetail: View {
                     movie = try! await MovieService.shared.findMovie(query: review.movie)
                 }
             }
+            .alert("Are you sure you want to delete?", isPresented: $showDeleteAlert) {
+                        Button("Delete", role: .destructive) {
+                            Task {
+                                await reviewVM.deleteReview(review: review)
+                            }
+                        }
+                        Button("Cancel", role: .cancel) { }
+                    } message: {
+                        Text("Deleted reviews cannot be recovered.")
+                    }
         }
     }
 }
