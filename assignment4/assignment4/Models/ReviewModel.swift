@@ -21,4 +21,5 @@ final class ReviewModel: Codable, Identifiable{
     var rating: Int
     var user: String
     var movie: Int
+    var movieTitle: String?
 }

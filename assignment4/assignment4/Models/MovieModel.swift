@@ -8,6 +8,13 @@
 import Foundation
 
 struct MovieModel : Codable, Identifiable {
+    init() {
+        id = 0
+        overview = ""
+        poster_path = nil
+        release_date = ""
+        title = ""
+    }
     let id : Int
     let overview : String
     let poster_path : String?

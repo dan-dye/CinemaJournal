@@ -10,8 +10,8 @@ import FirebaseAuth
 
 //Simulates the landing page after authentication in final app
 struct HomeView: View {
-    let user = Auth.auth().currentUser
-    @State var isLoggedIn: Bool = true
+    @State private var user = Auth.auth().currentUser
+    @State private var isLoggedIn: Bool = true
     
     var body: some View {
         if(!isLoggedIn) {
@@ -23,18 +23,23 @@ struct HomeView: View {
                     NavigationLink("My Reviews") {
                         MyReviewsView()
                     }
+                    .padding()
                     NavigationLink("Add a Review") {
                         MovieSearchView()
                     }
+                    .padding()
                     Spacer()
+                    Text("Account: " + (user?.email ?? "default"))
+                        .font(.system(size: 14))
                     Button("Logout") {
                         try? Auth.auth().signOut()
                     }
                 }
-                .navigationTitle(user?.email ?? "user");
+                .navigationTitle("CineJournal");
             }.onAppear {
                 Auth.auth().addStateDidChangeListener { auth, user in
                     if user != nil {
+                        self.user = user
                         isLoggedIn = true
                     }
                     else {

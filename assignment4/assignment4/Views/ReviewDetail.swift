@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReviewDetail: View {
     var review : ReviewModel
-    @State var movie = MovieModel(id : 0, overview : "", poster_path : "", release_date : "", title : "")
+    @State var movie = MovieModel()
     var body: some View {
         ScrollView {
             VStack(alignment : .center, spacing: 10) {

@@ -26,6 +26,7 @@ struct CreateReviewView: View {
                     review.rating = Int(rating)
                     review.movie = movie.id
                     review.user = user!.uid
+                    review.movieTitle = movie.title
                     await reviewVM.saveReview(review: review)
                     goToDestination = true
                 }

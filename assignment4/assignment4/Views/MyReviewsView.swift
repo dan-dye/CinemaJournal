@@ -10,7 +10,7 @@ import FirebaseAuth
 
 struct MyReviewsView: View {
     let user = Auth.auth().currentUser
-    @State var isLoggedIn: Bool = true
+    @State private var isLoggedIn: Bool = true
     @StateObject var myReviews = ReviewViewModel()
     
     var body: some View {
@@ -20,14 +20,15 @@ struct MyReviewsView: View {
                     NavigationLink {
                         ReviewDetail(review: review)
                     } label : {
-                        Text(review.id!)
+                        Text(review.movieTitle!)
                     }
                     
                 }
             }
             .onAppear {
-                myReviews.fetchReviews()
+                myReviews.fetchReviews(user: user?.uid ?? "")
             }
+            .navigationTitle("My Reviews")
         }
     }
 }

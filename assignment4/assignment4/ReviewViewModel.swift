@@ -9,14 +9,15 @@ import Foundation
 import FirebaseFirestore
 
 
+
 class ReviewViewModel: ObservableObject {
     @Published private(set) var reviews = [ReviewModel]()
     let db = Firestore.firestore()
     
-    func fetchReviews() {
+    func fetchReviews(user: String) {
         self.reviews.removeAll() //Removes reviews from array to prevent duplication
         
-        db.collection("reviews")
+        db.collection("reviews").whereField("user", isEqualTo: user)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -37,16 +38,18 @@ class ReviewViewModel: ObservableObject {
     func saveReview(review: ReviewModel) async {
         // Add a new document in collection "cities"
         do {
-          try await db.collection("reviews").document().setData([
-            "content": review.content,
-            "rating": review.rating,
-            "user": review.user,
-            "movie": review.movie
-          ])
-          print("Document successfully written!")
+            try await db.collection("reviews").document().setData([
+                "content": review.content,
+                "rating": review.rating,
+                "user": review.user,
+                "movie": review.movie,
+                "movieTitle": review.movieTitle ?? "Unknown Title"
+            ])
+            print("Document successfully written!")
         } catch {
-          print("Error writing document: \(error)")
+            print("Error writing document: \(error)")
         }
         
     }
+    
 }
