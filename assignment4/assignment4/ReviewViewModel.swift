@@ -33,4 +33,20 @@ class ReviewViewModel: ObservableObject {
             }
         
     }
+    
+    func saveReview(review: ReviewModel) async {
+        // Add a new document in collection "cities"
+        do {
+          try await db.collection("reviews").document().setData([
+            "content": review.content,
+            "rating": review.rating,
+            "user": review.user,
+            "movie": review.movie
+          ])
+          print("Document successfully written!")
+        } catch {
+          print("Error writing document: \(error)")
+        }
+        
+    }
 }

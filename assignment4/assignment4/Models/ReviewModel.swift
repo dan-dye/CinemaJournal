@@ -9,9 +9,16 @@ import Foundation
 import FirebaseFirestore
 
 final class ReviewModel: Codable, Identifiable{
+    init(){
+        id = nil
+        content = ""
+        rating = 0
+        user = ""
+        movie = 0
+    }
     @DocumentID var id: String?
-    let content: String
-    let rating: Int
-    let user: String
-    let movie: Int
+    var content: String
+    var rating: Int
+    var user: String
+    var movie: Int
 }

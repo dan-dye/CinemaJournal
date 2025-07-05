@@ -22,7 +22,7 @@ struct MovieSearchView: View {
             List {
                 ForEach(movieResults) { result in
                     NavigationLink {
-                        Text(result.title)
+                        MovieDetails(movie: result)
                     } label : {
                         Text(result.title)
                     }

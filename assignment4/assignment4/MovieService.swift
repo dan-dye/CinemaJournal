@@ -26,7 +26,6 @@ class MovieService {
             .data(from: url)
         do {
             let movieResponse = try JSONDecoder().decode(MovieResponseModel.self, from: data)
-            print(movieResponse.results)
             return movieResponse.results
         } catch {
             print("Decoding error: \(error)")
