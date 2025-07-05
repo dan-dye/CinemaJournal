@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         //User logged in
         if isLoggedIn {
-            TestView()
+            HomeView()
         }
         //User is not logged in
         else {

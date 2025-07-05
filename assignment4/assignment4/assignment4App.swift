@@ -8,13 +8,14 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
-
+import FirebaseFirestore
 
 @main
 struct assignment4App: App {
     
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     
     var body: some Scene {
         WindowGroup {

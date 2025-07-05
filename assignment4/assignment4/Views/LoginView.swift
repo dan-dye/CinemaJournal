@@ -15,7 +15,7 @@ struct LoginView: View {
     @State private var isLoggedIn: Bool = false
     var body: some View {
         if isLoggedIn {
-            TestView()
+            HomeView()
         }
         else {
             Group {
