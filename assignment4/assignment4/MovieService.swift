@@ -25,7 +25,7 @@ class MovieService {
             .shared
             .data(from: url)
         do {
-            let movieResponse = try JSONDecoder().decode(MovieResponseModel.self, from: data)
+            let movieResponse = try JSONDecoder().decode(MovieResults.self, from: data)
             return movieResponse.results
         } catch {
             print("Decoding error: \(error)")

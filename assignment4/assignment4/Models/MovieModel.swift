@@ -7,6 +7,8 @@
 
 import Foundation
 
+//Model for movies fetched from TMDB API
+
 struct MovieModel : Codable, Identifiable, Hashable {
     init() {
         id = 0
@@ -22,6 +24,3 @@ struct MovieModel : Codable, Identifiable, Hashable {
     let title : String
 }
 
-struct MovieResponseModel : Codable {
-    let results : [MovieModel]
-}
