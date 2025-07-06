@@ -12,13 +12,15 @@ import FirebaseAuth
 struct LoginView: View {
     @StateObject private var model: AuthenticationModel = AuthenticationModel()
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
+    @State private var error: String = ""
+    @State private var errorShown: Bool = false
     @State private var isLoggedIn: Bool = false
     var body: some View {
         if isLoggedIn {
             HomeView()
         }
         else {
-            Group {
+            List {
                 Text("Log In")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                 TextField("Email", text: $model.email) {
@@ -34,7 +36,22 @@ struct LoginView: View {
                 .background((Color.gray.opacity(0.2)))
                 .cornerRadius(10)
                 Button {
-                    authViewModel.login(email: model.email, password: model.password)
+                    if authViewModel.validateUser(model: model) {
+                        Task {
+                            do {
+                                try await authViewModel.login(email: model.email, password: model.password)
+                            } catch {
+                                self.error = error.localizedDescription
+                                self.errorShown = true
+                            }
+                        }
+                    }
+                    else {
+                        error = model.errorMessage
+                        errorShown = true
+                    }
+                    
+                    
                 } label: {
                     Text("Login With Email")
                         .foregroundColor(.white)
@@ -43,15 +60,11 @@ struct LoginView: View {
                         .background(Color.blue)
                         .cornerRadius(10)
                 }
-            }
-            //Listener for login state
-            .onAppear {
-                Auth.auth().addStateDidChangeListener { auth, user in
-                    if user != nil {
-                        isLoggedIn = true
-                    }
+                .alert(isPresented: $errorShown) {
+                    Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
                 }
             }
+
         }
     }
     

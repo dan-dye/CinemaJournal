@@ -11,6 +11,8 @@ import FirebaseAuth
 struct ContentView: View {
     @StateObject private var model: AuthenticationModel = AuthenticationModel()
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
+    @State private var error: String = ""
+    @State private var errorShown: Bool = false
     //Checks if users is already logged in
     @State private var isLoggedIn: Bool = false
     
@@ -22,7 +24,7 @@ struct ContentView: View {
         //User is not logged in
         else {
             NavigationStack {
-                Group {
+                List {
                     Text("Sign Up")
                         .font(.system(size: 40, weight: .bold, design: .rounded))
                     TextField("Email", text: $model.email) {
@@ -44,12 +46,19 @@ struct ContentView: View {
                         .background((Color.gray.opacity(0.2)))
                         .cornerRadius(10)
                     Button {
-                        if(model.password == model.confirmPassword) {
-                            authViewModel.register(email: model.email, password: model.password)
-                            
+                        if authViewModel.validateUser(model: model) {
+                            Task {
+                                do {
+                                    try await authViewModel.register(email: model.email, password: model.password)
+                                } catch {
+                                    self.error = error.localizedDescription
+                                    self.errorShown = true
+                                }
+                            }
                         }
                         else {
-                            print("Passwords do not match")
+                            error = model.errorMessage
+                            errorShown = true
                         }
                     } label: {
                         Text("Register With Email")
@@ -58,6 +67,9 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity)
                             .background(Color.blue)
                             .cornerRadius(10)
+                    }
+                    .alert(isPresented: $errorShown) {
+                        Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
                     }
                     //Link for login instead
                     NavigationLink {
@@ -87,9 +99,3 @@ struct ContentView: View {
 
 
 
-
-
-
-#Preview {
-    ContentView()
-}
