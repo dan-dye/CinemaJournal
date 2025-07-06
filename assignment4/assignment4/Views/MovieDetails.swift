@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MovieDetails: View {
     var movie: MovieModel
+    @Binding var path: [Route]
     var body: some View {
         ScrollView {
             VStack(alignment : .center, spacing: 10) {
-                NavigationLink("New Review") {
-                    CreateReviewView(movie: movie)
+                Button("New Review") {
+                    path.append(.createReview(movie))
                 }
                 .padding()
                 .foregroundColor(.white)

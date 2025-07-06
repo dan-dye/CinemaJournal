@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieModel : Codable, Identifiable {
+struct MovieModel : Codable, Identifiable, Hashable {
     init() {
         id = 0
         overview = ""

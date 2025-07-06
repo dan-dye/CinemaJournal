@@ -12,13 +12,14 @@ struct ReviewDetail: View {
     @State var movie = MovieModel()
     @State private var showDeleteAlert = false
     @State private var reviewVM = ReviewViewModel()
+    @Binding var path: [Route]
     var body: some View {
         ScrollView {
             VStack(alignment : .center, spacing: 10) {
                 Spacer()
                 HStack {
-                    NavigationLink("Edit") {
-                        EditView(review: review, movie: movie)
+                    Button("Edit") {
+                        path.append(.edit(review, movie))
                     }
                     Button("Delete") {
                         showDeleteAlert = true
@@ -65,6 +66,7 @@ struct ReviewDetail: View {
                         Button("Delete", role: .destructive) {
                             Task {
                                 await reviewVM.deleteReview(review: review)
+                                path = [.myReviews]
                             }
                         }
                         Button("Cancel", role: .cancel) { }

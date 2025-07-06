@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-final class ReviewModel: Codable, Identifiable{
+struct ReviewModel: Codable, Identifiable, Hashable {
     init(){
         id = nil
         content = ""

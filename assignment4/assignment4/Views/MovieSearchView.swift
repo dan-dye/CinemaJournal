@@ -10,6 +10,7 @@ import SwiftUI
 struct MovieSearchView: View {
     @State var searchText: String = ""
     @State var movieResults: [MovieModel] = []
+    @Binding var path: [Route]
     var body: some View {
         VStack {
             TextField("Search for a film...", text: $searchText) {
@@ -21,12 +22,9 @@ struct MovieSearchView: View {
             Spacer()
             List {
                 ForEach(movieResults) { result in
-                    NavigationLink {
-                        MovieDetails(movie: result)
-                    } label : {
-                        Text(result.title)
+                    Button(result.title) {
+                        path.append(.movieDetails(result))
                     }
-                    
                 }
             }
             Button("Search") {
@@ -52,6 +50,3 @@ struct MovieSearchView: View {
     
 }
 
-#Preview {
-    MovieSearchView()
-}

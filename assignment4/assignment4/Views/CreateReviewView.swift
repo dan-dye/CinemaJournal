@@ -16,7 +16,7 @@ struct CreateReviewView: View {
     @State private var rating: Double = 5
     @State private var reviewVM = ReviewViewModel()
     @State private var review: ReviewModel = ReviewModel()
-    @State private var goToDestination: Bool = false
+    @Binding var path: [Route]
     
     var body: some View {
         VStack {
@@ -28,7 +28,7 @@ struct CreateReviewView: View {
                     review.user = user!.uid
                     review.movieTitle = movie.title
                     await reviewVM.saveReview(review: review)
-                    goToDestination = true
+                    path = [.myReviews]
                 }
 
             } label: {
@@ -44,9 +44,6 @@ struct CreateReviewView: View {
             
         }
         .padding()
-        .navigationDestination(isPresented: $goToDestination) {
-            MyReviewsView()
-        }
     }
 }
 

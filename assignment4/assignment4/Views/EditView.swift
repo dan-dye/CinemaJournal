@@ -15,7 +15,7 @@ struct EditView: View {
     @State private var reviewText: String = ""
     @State private var rating: Double = 5
     @State private var reviewVM = ReviewViewModel()
-    @State private var goToDestination: Bool = false
+    @Binding var path: [Route]
     var body: some View {
         VStack {
             Button {
@@ -26,7 +26,7 @@ struct EditView: View {
                     review.user = user!.uid
                     review.movieTitle = movie.title
                     await reviewVM.editReview(review: review)
-                    goToDestination = true
+                    path = [.reviewDetails(review)]
                 }
                 
             } label: {
@@ -44,9 +44,6 @@ struct EditView: View {
             
         }
         .padding()
-        .navigationDestination(isPresented: $goToDestination) {
-            MyReviewsView()
-        }
         .onAppear() {
             reviewText = review.content
             rating = Double(review.rating)

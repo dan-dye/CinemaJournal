@@ -12,27 +12,20 @@ struct MyReviewsView: View {
     let user = Auth.auth().currentUser
     @State private var isLoggedIn: Bool = true
     @StateObject var myReviews = ReviewViewModel()
-    
+    @Binding var path: [Route]
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(myReviews.reviews) { review in
-                    NavigationLink {
-                        ReviewDetail(review: review)
-                    } label : {
-                        Text(review.movieTitle!)
-                    }
-                    
+
+        List {
+            ForEach(myReviews.reviews) { review in
+                Button(review.movieTitle!) {
+                    path.append(.reviewDetails(review))
                 }
             }
-            .onAppear {
-                myReviews.fetchReviews(user: user?.uid ?? "")
-            }
-            .navigationTitle("My Reviews")
         }
+        .onAppear {
+            myReviews.fetchReviews(user: user?.uid ?? "")
+        }
+        .navigationTitle("My Reviews")
     }
 }
 
-#Preview {
-    MyReviewsView()
-}
