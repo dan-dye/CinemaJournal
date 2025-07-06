@@ -63,6 +63,7 @@ struct CreateReviewView: View {
             TextEditor(text: $reviewText)
                 .background(Color.gray.opacity(0.2))
                 .scrollContentBackground(.hidden)
+                .frame(minHeight: 180)
             
         }
         .padding()
