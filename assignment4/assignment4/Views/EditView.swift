@@ -24,7 +24,9 @@ struct EditView: View {
                     review.rating = Int(rating)
                     review.movie = movie.id
                     review.user = user!.uid
-                    review.movieTitle = movie.title
+                    let year = movie.release_date?.prefix(4) ?? "Unknown"
+                    let title = "\(movie.title) (\(year))"
+                    review.movieTitle = title
                     await reviewVM.editReview(review: review)
                     path = [.reviewDetails(review)]
                 }

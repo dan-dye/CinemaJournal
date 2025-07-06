@@ -26,7 +26,9 @@ struct CreateReviewView: View {
                     review.rating = Int(rating)
                     review.movie = movie.id
                     review.user = user!.uid
-                    review.movieTitle = movie.title + " (" + movie.release_date.prefix(4) + ")"
+                    let year = movie.release_date?.prefix(4) ?? "Unknown"
+                    let title = "\(movie.title) (\(year))"
+                    review.movieTitle = title
                     await reviewVM.saveReview(review: review)
                     path = [.myReviews]
                 }

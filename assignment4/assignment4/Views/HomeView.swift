@@ -29,18 +29,23 @@ struct HomeView: View {
         else {
             NavigationStack(path: $path) {
                 List {
-                    Button("My Reviews") {
-                        path.append(.myReviews)
+                    Section(header: Text("Reviews")) {
+                        Button("My Reviews") {
+                            path.append(.myReviews)
+                        }
+                        Button("Add a Review") {
+                            path.append(.movieSearch)
+                        }
                     }
-                    Button("Add a Review") {
-                        path.append(.movieSearch)
+                    
+                    Section(header: Text("Account")) {
+                        Text("Account: " + (user?.email ?? "default"))
+                            .font(.system(size: 14))
+                        Button("Logout") {
+                            try? Auth.auth().signOut()
+                        }
                     }
-                    Spacer()
-                    Text("Account: " + (user?.email ?? "default"))
-                        .font(.system(size: 14))
-                    Button("Logout") {
-                        try? Auth.auth().signOut()
-                    }
+                    
                 }
                 .navigationTitle("CineJournal")
                 .navigationDestination(for: Route.self) { route in
@@ -59,18 +64,7 @@ struct HomeView: View {
                             CreateReviewView(movie: movie, path: $path)
                         }
                     }
-            }.onAppear {
-                Auth.auth().addStateDidChangeListener { auth, user in
-                    if user != nil {
-                        self.user = user
-                        isLoggedIn = true
-                    }
-                    else {
-                        isLoggedIn = false
-                    }
-                }
             }
-            
         }
     }
 }

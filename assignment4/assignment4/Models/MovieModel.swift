@@ -18,7 +18,7 @@ struct MovieModel : Codable, Identifiable, Hashable {
     let id : Int
     let overview : String
     let poster_path : String?
-    let release_date : String
+    let release_date : String?
     let title : String
 }
 
