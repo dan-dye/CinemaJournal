@@ -26,6 +26,7 @@ struct LoginView: View {
                 TextField("Email", text: $model.email) {
                     
                 }
+                .autocapitalization(.none)
                 .padding()
                 .background((Color.gray.opacity(0.2)))
                 .cornerRadius(10)
