@@ -52,10 +52,6 @@ struct ReviewDetail: View {
                         }
                     }
                 }
-                
-                
-             
-                
                 Text(review.content)
                 Button("Edit") {
                     path.append(.edit(review, movie))
@@ -65,6 +61,7 @@ struct ReviewDetail: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.blue)
                 .cornerRadius(10)
+                
                 Button("Delete") {
                     showDeleteAlert = true
                 }
