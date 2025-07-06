@@ -81,9 +81,11 @@ struct HomeView: View {
                     //Sets up listener for logged in status
                     Auth.auth().addStateDidChangeListener { auth, user in
                         if user != nil {
+                            self.user = user
                             isLoggedIn = true
                         }
                         else {
+                            self.user = nil
                             isLoggedIn = false
                         }
                     }
