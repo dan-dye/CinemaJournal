@@ -22,7 +22,7 @@ struct MovieSearchView: View {
             Spacer()
             List {
                 ForEach(movieResults) { result in
-                    Button(result.title) {
+                    Button(result.title + " (" + result.release_date.prefix(4) + ")") {
                         path.append(.movieDetails(result))
                     }
                 }

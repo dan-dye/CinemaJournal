@@ -31,6 +31,11 @@ struct EditView: View {
                 
             } label: {
                 Text("Submit Review")
+                    .foregroundColor(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(10)
             }
             HStack {
                 Text("Rating: " + String(Int(rating)))

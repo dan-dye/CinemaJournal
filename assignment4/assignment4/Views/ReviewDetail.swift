@@ -21,10 +21,21 @@ struct ReviewDetail: View {
                     Button("Edit") {
                         path.append(.edit(review, movie))
                     }
+                    .foregroundColor(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(10)
                     Button("Delete") {
                         showDeleteAlert = true
                     }
+                    .foregroundColor(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red)
+                    .cornerRadius(10)
                 }
+                .padding()
                 
                 
                 Section(header: Text(movie.title)

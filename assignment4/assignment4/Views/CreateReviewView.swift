@@ -26,13 +26,18 @@ struct CreateReviewView: View {
                     review.rating = Int(rating)
                     review.movie = movie.id
                     review.user = user!.uid
-                    review.movieTitle = movie.title
+                    review.movieTitle = movie.title + " (" + movie.release_date.prefix(4) + ")"
                     await reviewVM.saveReview(review: review)
                     path = [.myReviews]
                 }
 
             } label: {
                 Text("Submit Review")
+                    .foregroundColor(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(10)
             }
             HStack {
                 Text("Rating: " + String(Int(rating)))
