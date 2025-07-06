@@ -7,6 +7,8 @@
 
 import Foundation
 
+//Model for the results of a movie search based on title.
+
 struct MovieResults : Codable {
     let page : Int
     let results : [MovieModel]

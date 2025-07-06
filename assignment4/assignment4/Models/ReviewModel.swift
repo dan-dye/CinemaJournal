@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseFirestore
 
+//Model for user reviews
+
 struct ReviewModel: Codable, Identifiable, Hashable {
     init(){
         id = nil
@@ -18,8 +20,8 @@ struct ReviewModel: Codable, Identifiable, Hashable {
     }
     @DocumentID var id: String?
     var content: String
-    var rating: Int
+    var rating: Int //5 star system
     var user: String
     var movie: Int
-    var movieTitle: String?
+    var movieTitle: String? //For displaying on the My Reviews screen
 }

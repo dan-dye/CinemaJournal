@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+/*Movie Details
+ Displays the details of a movie pulled up in the MovieSearchView.
+ Details fetched from TMDB API.
+ */
+
 struct MovieDetails: View {
     var movie: MovieModel
     @Binding var path: [Route]
@@ -15,6 +20,7 @@ struct MovieDetails: View {
         List {
             HStack {
                 Spacer()
+                //Poster
                 AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w200/" + (movie.poster_path ?? ""))) { image in
                     image
                         .resizable()
@@ -28,11 +34,13 @@ struct MovieDetails: View {
             }
             .padding()
             
+            //Movie information
             Section(header: Text("Information")) {
                 Text("Release: " + (movie.release_date ?? "Unknown"))
                 Text(movie.overview)
             }
             
+            //Create a new review for this movie.
             Button("New Review") {
                 path.append(.createReview(movie))
             }
@@ -45,7 +53,7 @@ struct MovieDetails: View {
 
         }
         .navigationTitle(movie.title + " (" + (movie.release_date?.prefix(4) ?? "Unknown") + ")")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.large) //Prevents title from auto displaying in center
     }
 }
 

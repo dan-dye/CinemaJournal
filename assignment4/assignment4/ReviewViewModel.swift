@@ -8,15 +8,19 @@
 import Foundation
 import FirebaseFirestore
 
-
+/*ReviewViewModel
+    Handles CRUD with Firebase for reviews.
+ */
 
 class ReviewViewModel: ObservableObject {
     @Published private(set) var reviews = [ReviewModel]()
     let db = Firestore.firestore()
     
+    //Fetch reviews from Firebase
     func fetchReviews(user: String) {
         self.reviews.removeAll() //Removes reviews from array to prevent duplication
         
+        //Selects only reviews for the passed user.
         db.collection("reviews").whereField("user", isEqualTo: user)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
@@ -30,11 +34,10 @@ class ReviewViewModel: ObservableObject {
                         }
                     }
                 }
-                
             }
-        
     }
     
+    //Saves a new review to Firebase
     func saveReview(review: ReviewModel) async {
         do {
             try await db.collection("reviews").document().setData([
@@ -51,6 +54,7 @@ class ReviewViewModel: ObservableObject {
         
     }
     
+    //Edits an existing review with Firebase
     func editReview(review: ReviewModel) async {
         let docRef = db.collection("reviews").document(review.id!)
         
@@ -68,6 +72,7 @@ class ReviewViewModel: ObservableObject {
         }
     }
     
+    //Deletes a review from Firebase
     func deleteReview(review: ReviewModel) async {
         do {
             if let id = review.id {

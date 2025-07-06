@@ -8,12 +8,20 @@
 import SwiftUI
 import FirebaseAuth
 
+/*Starting View
+ Prompts user to sign up if they are not logged in, else redirects them to Home.
+ */
+
 struct ContentView: View {
+    //View Models
     @StateObject private var model: AuthenticationModel = AuthenticationModel()
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
+    
+    //Error handling variables
     @State private var error: String = ""
     @State private var errorShown: Bool = false
-    //Checks if users is already logged in
+    
+    //Holds if users is already logged in
     @State private var isLoggedIn: Bool = false
     
     var body: some View {
@@ -47,17 +55,21 @@ struct ContentView: View {
                         .background((Color.gray.opacity(0.2)))
                         .cornerRadius(10)
                     Button {
-                        if authViewModel.validateUser(model: model) {
+                        //Checks if email is valid, email or password is blank, or passwords don't match.
+                        if authViewModel.validateNewUser(model: model) {
                             Task {
                                 do {
+                                    //Firebase register
                                     try await authViewModel.register(email: model.email, password: model.password)
                                 } catch {
+                                    //Errors from Firebase
                                     self.error = error.localizedDescription
                                     self.errorShown = true
                                 }
                             }
                         }
                         else {
+                            //Display front end errors
                             error = model.errorMessage
                             errorShown = true
                         }
@@ -70,6 +82,7 @@ struct ContentView: View {
                             .cornerRadius(10)
                     }
                     .alert(isPresented: $errorShown) {
+                        //Alert with login error messages
                         Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
                     }
                     //Link for login instead
@@ -84,6 +97,7 @@ struct ContentView: View {
                 }
             //Listener for login state
             .onAppear {
+                //Sets up listener for logged in status
                 Auth.auth().addStateDidChangeListener { auth, user in
                     if user != nil {
                         isLoggedIn = true

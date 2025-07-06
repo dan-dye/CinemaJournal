@@ -10,12 +10,21 @@ import FirebaseAuth
 
 //Login page for existing accounts
 struct LoginView: View {
+    //Models
     @StateObject private var model: AuthenticationModel = AuthenticationModel()
+    
+    //View Models
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
+    
+    //Error handling variables
     @State private var error: String = ""
     @State private var errorShown: Bool = false
+    
+    //Tracks logged in status
     @State private var isLoggedIn: Bool = false
+    
     var body: some View {
+        //If user is already logged in, redirect to Home.
         if isLoggedIn {
             HomeView()
         }
@@ -23,6 +32,7 @@ struct LoginView: View {
             List {
                 Text("Log In")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
+                //Email entry
                 TextField("Email", text: $model.email) {
                     
                 }
@@ -30,6 +40,7 @@ struct LoginView: View {
                 .padding()
                 .background((Color.gray.opacity(0.2)))
                 .cornerRadius(10)
+                //Password entry
                 SecureField("Password", text: $model.password) {
                     
                 }
@@ -37,17 +48,21 @@ struct LoginView: View {
                 .background((Color.gray.opacity(0.2)))
                 .cornerRadius(10)
                 Button {
+                    //Checks if email or password is empty, or email is not valid form.
                     if authViewModel.validateUser(model: model) {
                         Task {
                             do {
+                                //Firebase login
                                 try await authViewModel.login(email: model.email, password: model.password)
                             } catch {
+                                //Errors from Firebase
                                 self.error = error.localizedDescription
                                 self.errorShown = true
                             }
                         }
                     }
                     else {
+                        //Display front end errors
                         error = model.errorMessage
                         errorShown = true
                     }
@@ -62,6 +77,7 @@ struct LoginView: View {
                         .cornerRadius(10)
                 }
                 .alert(isPresented: $errorShown) {
+                    //Error display alert
                     Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
                 }
             }
